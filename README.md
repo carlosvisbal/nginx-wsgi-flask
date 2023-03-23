@@ -8,6 +8,8 @@ Project structure:
 .
 ├── compose.yaml
 ├── flask
+    ├── nwrfcsdk/lib
+    ├── conf
 │   ├── app.py
 │   ├── Dockerfile
 │   ├── requirements.txt
