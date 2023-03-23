@@ -1,3 +1,4 @@
 Flask
 gunicorn
 # pyrfc
+pyodbc==4.0.34 

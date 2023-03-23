@@ -5,8 +5,21 @@ FROM python:3.10
 # upgrade pip
 RUN pip install --upgrade pip
 
-# get curl for healthchecks
-# RUN apk add curl
+# MS ODBC
+RUN apt-get update
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -\
+    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update
+
+RUN ACCEPT_EULA=Y apt-get install -y msodbcsql17 && ACCEPT_EULA=Y apt-get install -y mssql-tools
+RUN apt-get install -y unixodbc-dev && apt-get install -y libgssapi-krb5-2
+RUN apt-get update
+
+COPY ./conf/freetds.conf /etc/freetds/freetds.conf
+COPY ./conf/odbc.ini /etc/odbc.ini
+COPY ./conf/odbcinst.ini /etc/odbcinst.ini
+COPY ./conf/openssl.cnf /etc/ssl/openssl.cnf
 
 # SAP pyRFC
 RUN mkdir -p /etc/ld.so.conf.d/ \
